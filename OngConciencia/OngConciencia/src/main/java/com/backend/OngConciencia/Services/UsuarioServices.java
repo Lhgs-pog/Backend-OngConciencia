@@ -75,7 +75,7 @@ public class UsuarioServices {
     }
 
     @Transactional
-    public ResponseEntity deleteAll(BigInteger id){
+    public ResponseEntity deleteAll(){
         repository.deleteAll();
         return ResponseEntity.ok("Usuarios deletados com sucesso");
     }
