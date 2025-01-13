@@ -1,0 +1,9 @@
+CREATE TABLE ong (
+    id UUID PRIMARY KEY NOT NULL,
+    nome VARCHAR(255) NOT NULL,
+    descricao TEXT NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    telefone VARCHAR(20) NOT NULL UNIQUE,
+    link_img VARCHAR(255),
+    link_site VARCHAR(255) NOT NULL
+);
