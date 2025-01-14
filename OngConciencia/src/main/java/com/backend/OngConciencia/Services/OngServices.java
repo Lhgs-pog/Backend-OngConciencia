@@ -50,7 +50,7 @@ public class OngServices {
     }
 
     @Transactional
-    public ResponseEntity saveUsuario(OngRequestDto data){
+    public ResponseEntity saveOng(OngRequestDto data){
 
         if (!(respository.findOptionalByNome(data.nome()) == null)){
             throw new DataIntegrityViolationException("Já existe uma ong com esse nome");
@@ -62,10 +62,11 @@ public class OngServices {
     }
 
     @Transactional
-    public ResponseEntity updateUsuario(OngRequestDto data){
+    public ResponseEntity updateOng(OngRequestDto data){
 
         Ong ongexistente = respository.findOptionalByNome(data.nome())
                 .orElseThrow(() -> new ResourceNotFoundException("Nenhuma ong encontrada com esse nome"));
+
 
         ongexistente.setNome(data.nome());
         ongexistente.setDescricao(data.descricao());

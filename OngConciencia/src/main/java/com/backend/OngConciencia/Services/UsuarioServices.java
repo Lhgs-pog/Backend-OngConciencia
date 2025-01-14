@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class UsuarioServices {
@@ -78,5 +79,34 @@ public class UsuarioServices {
     public ResponseEntity deleteAll(){
         repository.deleteAll();
         return ResponseEntity.ok("Usuarios deletados com sucesso");
+    }
+
+    //Gerador de código aleatório
+    public int codigoVerificacao(){
+        Random gerador = new Random();
+        //Gera um código de até 6 digitos entre 000000 a 999999
+        return gerador.nextInt(1000000);
+    }
+
+    public void enviarEmailVerificacao(String email){
+
+        int codigo = codigoVerificacao();
+
+        mail.enviarEmailTexto(
+                email,
+                "Verificação de email",
+                "O email: "+email+"está sendo cadastrado no noso site Ong Conciência." +
+                        "Aqui está o seu código de configuração: "+codigo +". Caso está acha não tenha sido feita por você," +
+                        "apenas ignore está menssagem.\n Um agradecimento da equipe Ong Conciência."
+
+        );
+
+
+    }
+
+    public boolean verificarCodigo(int codigo , int tentativa){
+        if (codigo == tentativa)
+            return true;
+        return false;
     }
 }

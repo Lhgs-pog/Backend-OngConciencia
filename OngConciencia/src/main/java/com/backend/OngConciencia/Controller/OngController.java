@@ -33,16 +33,20 @@ public class OngController {
         return services.getOngBYId(id);
     }
 
+    //endpoint para pegar somente 30 ongs. Fututaamente será as de melhor avaliação
+    @GetMapping("/exibicao")
+    private List<OngResponseDto> getOngsExibicao(){return services.get30Ongs();}
+
     //endpoint para cadastrar uma ong
     @PostMapping
     public ResponseEntity saveOng(@RequestBody OngRequestDto data){
-        return services.saveUsuario(data);
+        return services.saveOng(data);
     }
 
     //endpoint para atualizar uma ong já registrada
     @PutMapping
     public ResponseEntity uptOng(@RequestBody OngRequestDto data){
-        return services.updateUsuario(data);
+        return services.updateOng(data);
     }
 
     //endpoint para deletar todas as ongs registradas
