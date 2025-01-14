@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +30,19 @@ public class OngServices {
         return respository.findAll().stream()
                 .map(OngResponseDto::new)
                 .toList();
+    }
+
+    //pega somente 30 ongs do banco
+    public List<OngResponseDto> get30Ongs(){
+        List<OngResponseDto> todas = respository.findAll().stream()
+                .map(OngResponseDto::new)
+                .toList();
+
+        ArrayList<OngResponseDto> limitada = new ArrayList<OngResponseDto>(30);
+        for (int i=0; i < 30; i++){
+            limitada.add(todas.get(i));
+        }
+        return limitada;
     }
 
     public Optional<Ong> getOngBYId(BigInteger id){
