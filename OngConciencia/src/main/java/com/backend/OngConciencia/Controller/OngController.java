@@ -15,7 +15,8 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/ong")
-public class OngController {
+public class
+OngController {
 
     //Injeto a depedencia do service
     @Autowired
