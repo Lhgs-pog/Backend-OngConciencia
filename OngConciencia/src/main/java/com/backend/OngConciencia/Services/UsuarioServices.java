@@ -26,6 +26,9 @@ public class UsuarioServices {
     @Autowired
     EmailServices mail;
 
+    @Autowired
+    CodigoServices codigoServices;
+
     public List<UsuarioResponseDto> findAllUsuarios(){
         return repository.findAll().stream()
                 .map(UsuarioResponseDto::new)
@@ -37,12 +40,14 @@ public class UsuarioServices {
     }
 
     @Transactional
-    public ResponseEntity<Usuario> saveUsuario(UsuarioRequestDto data){
+    public ResponseEntity saveUsuario(UsuarioRequestDto data, int tentativa){
         Usuario usuario = new Usuario(data);
 
-        repository.save(usuario);
-
-        return ResponseEntity.ok(usuario);
+        if (codigoServices.verificarCodigo(data.email(),tentativa)) {
+            repository.save(usuario);
+            return ResponseEntity.ok("Usuario salvo com sucesso");
+        }
+        return ResponseEntity.ok("Código expirado ou tentativa inválida. Faça uma nova tentaiva de criar uma conta para tentar novamente");
     }
 
     @Transactional

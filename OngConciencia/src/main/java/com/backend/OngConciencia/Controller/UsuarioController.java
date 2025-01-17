@@ -28,9 +28,9 @@ public class UsuarioController {
         return services.findUsuarioById(id);
     }
 
-    @PostMapping
-    public ResponseEntity postUsuario(@RequestBody UsuarioRequestDto data){
-        return services.saveUsuario(data);
+    @PostMapping("/{tentativa}")
+    public ResponseEntity postUsuario(@PathVariable("tentativa") int tentativa ,@RequestBody UsuarioRequestDto data){
+        return services.saveUsuario(data, tentativa);
     }
 
     @PutMapping("/{id}")
