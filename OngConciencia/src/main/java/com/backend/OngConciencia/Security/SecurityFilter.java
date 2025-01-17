@@ -21,7 +21,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     private TokenService tokenService;
 
     @Autowired
-    UsuarioRepository usuarioRepository;
+    private UsuarioRepository usuarioRepository;
 
 
     @Override
@@ -38,7 +38,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     }
 
     private String recoveryToken(HttpServletRequest request) {
-        String authHeader = request.getHeader("Authorization");
+        var authHeader = request.getHeader("Authorization");
         if (authHeader == null) return null;
         return authHeader.replace("Bearer ", "");
     }
