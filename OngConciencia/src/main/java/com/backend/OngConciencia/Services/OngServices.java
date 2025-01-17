@@ -45,7 +45,7 @@ public class OngServices {
         return limitada;
     }
 
-    public Optional<Ong> getOngBYId(BigInteger id){
+    public Optional<Ong> getOngBYId(String id){
         return respository.findById(id);
     }
 
@@ -81,7 +81,7 @@ public class OngServices {
     }
 
     @Transactional
-    public ResponseEntity deleteOngById(BigInteger id){
+    public ResponseEntity deleteOngById(String id){
         respository.deleteById(id);
 
         return ResponseEntity.ok("Ong deletada com sucesso");

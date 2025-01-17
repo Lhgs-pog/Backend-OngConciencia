@@ -25,7 +25,7 @@ public class Ong {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", nullable = false)
-    private BigInteger id;
+    private String id;
     @Column(name = "nome", nullable = false)
     private String nome;
     @Column(name = "descricao", nullable = false)

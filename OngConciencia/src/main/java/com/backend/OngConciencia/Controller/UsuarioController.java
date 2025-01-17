@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +24,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Usuario> getUsuarioById(@PathVariable("id")BigInteger id){
+    public Optional<Usuario> getUsuarioById(@PathVariable("id")String id){
         return services.findUsuarioById(id);
     }
 
@@ -35,7 +34,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity uptUsuario(@PathVariable("id") BigInteger id,@RequestBody UsuarioRequestDto data){
+    public ResponseEntity uptUsuario(@PathVariable("id") String id,@RequestBody UsuarioRequestDto data){
         return services.updateUsuario(id, data);
     }
 
@@ -45,7 +44,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteUsuarioById(@PathVariable("id") BigInteger id){
+    public ResponseEntity deleteUsuarioById(@PathVariable("id") String id){
         return services.deleteByID(id);
     }
 }

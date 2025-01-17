@@ -32,7 +32,7 @@ public class UsuarioServices {
                 .toList();
     }
 
-    public Optional<Usuario> findUsuarioById(BigInteger id){
+    public Optional<Usuario> findUsuarioById(String id){
         return repository.findById(id);
     }
 
@@ -46,7 +46,7 @@ public class UsuarioServices {
     }
 
     @Transactional
-    public ResponseEntity<Usuario> updateUsuario(BigInteger id,UsuarioRequestDto usuarioNovo){
+    public ResponseEntity<Usuario> updateUsuario(String id,UsuarioRequestDto usuarioNovo){
         Usuario usuarioExistente = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario não encontrado"));
 
@@ -65,7 +65,7 @@ public class UsuarioServices {
     }
 
     @Transactional
-    public ResponseEntity<Usuario> deleteByID(BigInteger id){
+    public ResponseEntity<Usuario> deleteByID(String id){
 
         Usuario usuario = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario não encontrado"));

@@ -30,7 +30,7 @@ OngController {
 
     //endpooint para pegar uma ong com um id passado na url
     @GetMapping("/{id}")
-    public Optional<Ong> getOngById(@PathVariable("id")BigInteger id){
+    public Optional<Ong> getOngById(@PathVariable("id")String id){
         return services.getOngBYId(id);
     }
 
@@ -58,7 +58,7 @@ OngController {
 
     //endpoint para deletar uma ong por um id
     @DeleteMapping("/{id}")
-    public ResponseEntity DeleteOngById(@PathVariable("id") BigInteger id){
+    public ResponseEntity DeleteOngById(@PathVariable("id") String id){
         return services.deleteOngById(id);
     }
 }

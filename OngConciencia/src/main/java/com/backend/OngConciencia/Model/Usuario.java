@@ -28,7 +28,7 @@ public class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", nullable = false)
-    private BigInteger id;
+    private String id;
     @Column(name = "nome", nullable = false)
     private String nome;
     @Column(name = "email", nullable = false, unique = true)

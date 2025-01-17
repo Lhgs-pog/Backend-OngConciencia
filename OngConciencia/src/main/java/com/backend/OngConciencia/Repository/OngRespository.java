@@ -8,6 +8,6 @@ import java.math.BigInteger;
 import java.util.Optional;
 
 @Repository
-public interface OngRespository extends JpaRepository<Ong, BigInteger> {
+public interface OngRespository extends JpaRepository<Ong, String> {
     Optional<Ong> findOptionalByNome(String nome);
 }
