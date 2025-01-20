@@ -45,10 +45,11 @@ public class Usuario implements UserDetails {
         this.senha=senha;
     }
 
-    public Usuario(String nome, String email, UsuarioRole role){
+    public Usuario(String nome, String email, String senha, UsuarioRole role){
         this.nome=nome;
         this.email=email;
-        this.role = role;
+        this.senha=senha;
+        this.role=role;
     }
 
 
