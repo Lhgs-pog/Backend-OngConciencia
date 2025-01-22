@@ -15,6 +15,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -27,14 +30,27 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return  httpSecurity
                 .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configurationSource(request -> {
+                    CorsConfiguration config = new CorsConfiguration();
+                    config.setAllowedOrigins(List.of("*")); // Permite requisições de qualquer origem(Obs: Posso mudar para um endereço específico)
+                    config.setAllowedHeaders(List.of("*")); // Permitir todos os cabeçalhos
+                    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE")); // Métodos permitidos
+                    return config;
+                }))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         // Configurações para o RestController /ong
                         .requestMatchers(HttpMethod.POST, "/ong").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/ong").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/ong").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/ong/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/ong").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/ong/{id}").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/ong/{id}").hasRole("ADMIN")
+
+                        // Configurações para o RestController /usuario
+                        .requestMatchers(HttpMethod.GET, "/user/**").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/user/{id}").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/user/{id}").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/user").hasRole("ADMIN")
 
                         // Requisições de Entrar e Cadastrar
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
