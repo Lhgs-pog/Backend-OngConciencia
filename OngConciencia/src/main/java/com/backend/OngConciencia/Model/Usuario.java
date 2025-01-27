@@ -38,6 +38,9 @@ public class Usuario implements UserDetails {
     @Enumerated(EnumType.STRING)
     @Column(name = "roles" ,nullable = false)
     private UsuarioRole role;
+    @Lob
+    @Column(name = "foto")
+    private byte[] foto;
 
     public Usuario(String nome, String email, String senha){
         this.nome=nome;

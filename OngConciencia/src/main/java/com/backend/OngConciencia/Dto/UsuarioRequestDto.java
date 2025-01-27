@@ -1,4 +1,4 @@
 package com.backend.OngConciencia.Dto;
 
-public record UsuarioRequestDto(String nome, String email, String senha) {
+public record UsuarioRequestDto(String nome, String email, String senha, byte[] foto) {
 }

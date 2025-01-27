@@ -9,8 +9,10 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -28,6 +30,9 @@ public class UsuarioServices {
 
     @Autowired
     CodigoServices codigoServices;
+
+    @Autowired
+    ImagemService imagemService;
 
     public List<UsuarioResponseDto> findAllUsuarios(){
         return repository.findAll().stream()
@@ -51,7 +56,7 @@ public class UsuarioServices {
     }
 
     @Transactional
-    public ResponseEntity<Usuario> updateUsuario(String id,UsuarioRequestDto usuarioNovo){
+    public ResponseEntity<Usuario> updateUsuario(String id,UsuarioRequestDto usuarioNovo, MultipartFile foto){
         Usuario usuarioExistente = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario não encontrado"));
 
@@ -63,10 +68,31 @@ public class UsuarioServices {
         usuarioExistente.setEmail(usuarioNovo.nome());
         usuarioExistente.setEmail(usuarioNovo.email());
         usuarioExistente.setSenha(usuarioNovo.senha());
+        usuarioExistente.setFoto(imagemService.tratarImagem(foto));
 
         repository.save(usuarioExistente);
 
         return ResponseEntity.ok(usuarioExistente);
+    }
+
+    @Transactional
+    public ResponseEntity<String> updateFoto(String email, MultipartFile foto){
+        Usuario usuario = repository.findOptionalByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Não existe um usuário com este email"));
+
+        try {
+            if (foto.isEmpty()){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("A imagem está vazia");
+            }
+
+            usuario.setFoto(imagemService.tratarImagem(foto));
+            repository.save(usuario);
+
+            return ResponseEntity.ok("Imagem salva com sucesso");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao salvar imagem");
+        }
     }
 
     @Transactional
