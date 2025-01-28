@@ -34,6 +34,11 @@ public class UsuarioController {
         return services.saveUsuario(data, tentativa);
     }
 
+    @PostMapping("/codigo")
+    public void gerarCodigo(@RequestParam("email") String email){
+        services.enviarEmailVerificacao(email);
+    }
+
     @PutMapping("/upload")
     public ResponseEntity<String> postFoto(@RequestParam("email") String email,@RequestParam("foto")MultipartFile foto){
         return services.updateFoto(email,foto);

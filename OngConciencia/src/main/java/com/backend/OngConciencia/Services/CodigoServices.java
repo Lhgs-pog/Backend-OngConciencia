@@ -21,22 +21,85 @@ public class CodigoServices {
 
     public int gerarCodigo(){
         Random gerador = new Random();
+        //Gera um numero aleatorio de 000000 a 999999
         return gerador.nextInt(1000000);
     }
 
     //Chamar isso quando a o codigo for gerado
-    public void salvarCodigo(String email){
+    public void salvarCodigo(String email) {
         int codigo = gerarCodigo();
         LocalDateTime now = LocalDateTime.now();
-        Codigo cod = new Codigo(email,codigo,now);
+        Codigo cod = new Codigo(email, codigo, now);
         repository.save(cod);
 
-        emailServices.enviarEmailTexto(email,
-                "Código de verificação",
+        emailServices.envirEmailCodigo(
+                email,
+                "Verificação de email",
+                String.format("""
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <style>
+                                body {
+                                    font-family: Arial, sans-serif;
+                                    background-color: white;
+                                    background-image: linear-gradient( 180deg, #90aeff, #60efb8, #cefc86);
+                                    color: black;
+                                    padding: 0px;
+                                }
+                                .email-container {
+                                    background-color: #f9f7f7;
+                                    border-radius: 10px;
+                                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                                    padding: 20px;
+                                    text-align: center;
+                                    width: 60vw;
+                                    margin: auto;
+                                    color: #000;
+                                    margin-top: 30px;
+                                    margin-bottom: 50px;
+                                }
+                                #navbar{
+                                    background-color: rgba(0, 0, 0, 0);
+                                    display: block;
+                                    width: 100vw;
+                                    text-align: center;
+                                    padding-top: 10px;
+                                    padding-bottom: 10px;
+                                }
+                        
+                                .email-container h1{
+                                    color: red;
+                                }
+                        
+                            </style>
+                        </head>
+                        <body>
+                            <nav id="navbar">
+                                <h1>Ong Conciência</h1>
+                            </nav>
+                            <div class="email-container">
+                                <h4>Verificação de email</h4>
+                                <p>
+                                    Prezado usuário,<br>
+                        
+                                    O e-mail %s está sendo cadastrado em nosso site <b>Ong Consciência</b>. <br>
+                                    Aqui está o seu código de verificação:
+                                    <br>
+                                    <h1>%d.</h1>
+                                    <br>
+                        
+                                    Se você não realizou essa solicitação, por favor, ignore esta mensagem e não compartilhe este código.
+                        
+                                    Agradecemos sua atenção.
+                                    Atenciosamente,<br>
+                                    <b>Equipe Ong Consciência</b>
+                                </p>
+                            </div>
+                        </body>
+                        </html>""", email, codigo)
 
-                "O seu código de verificação para criação de usuário é "+codigo
-        + " , caso não seja você que esteja criando uma conta na nossa plataforma Ong Conciência, apenas ignore este email e não compartilhe esse código.\n" +
-                        "Atenciosamente, equipe Ong Conciência.");
+        );
     }
 
     public boolean verificarCodigo(String email, int tentativa){
