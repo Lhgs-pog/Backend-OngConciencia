@@ -4,6 +4,7 @@ import com.backend.OngConciencia.Dto.AuthenticationDto;
 import com.backend.OngConciencia.Dto.LoginResponseDto;
 import com.backend.OngConciencia.Dto.RegisterDto;
 import com.backend.OngConciencia.Model.Usuario;
+import com.backend.OngConciencia.Model.UsuarioRole;
 import com.backend.OngConciencia.Repository.UsuarioRepository;
 import com.backend.OngConciencia.Services.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,12 +42,14 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody @Valid RegisterDto data) {
-        if(this.repository.findByEmail(data.email()) != null){
+        if (this.repository.findByEmail(data.email()) != null) {
             return ResponseEntity.badRequest().build();
         }
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.senha());
-        Usuario novoUsuario = new Usuario(data.nome(),data.email(), encryptedPassword, data.role());
+
+        // Define o papel do usuário sempre como UsuarioRole.USER
+        Usuario novoUsuario = new Usuario(data.nome(), data.email(), encryptedPassword, UsuarioRole.USER);
 
         this.repository.save(novoUsuario);
 
