@@ -51,13 +51,14 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.PUT, "/user/{id}").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/user/{id}").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/user").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/user/**").permitAll()
 
                         // Requisições de Entrar e Cadastrar
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
                         .anyRequest().authenticated()
                 )
-                .oauth2Login(Customizer.withDefaults())
+                // .oauth2Login(Customizer.withDefaults())
 
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
