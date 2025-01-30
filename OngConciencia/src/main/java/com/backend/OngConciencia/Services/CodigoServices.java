@@ -103,7 +103,7 @@ public class CodigoServices {
     }
 
     public boolean verificarCodigo(String email, int tentativa){
-        Codigo codigo = repository.findByEmail(email);
+        Codigo codigo = repository.findByEmail("\""+email+"\"");
         Duration duration = Duration.between(codigo.getDia(), LocalDateTime.now());
 
         deleteCodigo(codigo);
