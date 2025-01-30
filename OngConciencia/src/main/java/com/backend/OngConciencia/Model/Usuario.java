@@ -39,7 +39,7 @@ public class Usuario implements UserDetails {
     @Column(name = "roles" ,nullable = false)
     private UsuarioRole role;
     @Lob
-    @Column(name = "foto")
+    @Column(name = "foto", columnDefinition = "oid")
     private byte[] foto;
 
     public Usuario(String nome, String email, String senha){
