@@ -49,7 +49,7 @@ public class EmailServices {
             javaMailSender.send(mimeMessage);
             return "Email enviado";
         } catch (Exception e) {
-            return "Erro ao enviar email";
+            return "Erro ao enviar email" + e.getMessage();
         }
     }
 }
