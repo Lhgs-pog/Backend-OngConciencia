@@ -35,7 +35,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/codigo")
-    public void gerarCodigo(@RequestParam("email") String email){
+    public void gerarCodigo(@RequestBody String email){
         services.enviarEmailVerificacao(email);
     }
 
