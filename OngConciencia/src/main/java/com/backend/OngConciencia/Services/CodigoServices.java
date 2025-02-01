@@ -107,8 +107,9 @@ public class CodigoServices {
         Duration duration = Duration.between(codigo.getDia(), LocalDateTime.now());
 
         deleteCodigo(codigo);
-        if (codigo.getCodigo() == tentativa && duration.toHours() >= 24)
+        if (codigo.getCodigo() == tentativa && duration.toHours() <= 24) {
             return true;
+        }
         return false;
     }
 

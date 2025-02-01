@@ -77,7 +77,7 @@ public class UsuarioServices {
             repository.save(usuario);
             return ResponseEntity.ok("Usuario salvo com sucesso");
         }
-        return ResponseEntity.ok("Código expirado ou tentativa inválida. Faça uma nova tentaiva de criar uma conta para tentar novamente");
+        return ResponseEntity.badRequest().body("Código expirado ou tentativa inválida. Faça uma nova tentaiva de criar uma conta para tentar novamente");
     }
 
     /*
