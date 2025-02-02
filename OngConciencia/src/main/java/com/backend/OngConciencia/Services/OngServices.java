@@ -52,11 +52,12 @@ public class OngServices {
     @Transactional
     public ResponseEntity saveOng(OngRequestDto data){
 
-        if (!(respository.findOptionalByNome(data.nome()) == null)){
+        if(respository.findOptionalByNome(data.nome()).isPresent()){
             throw new DataIntegrityViolationException("Já existe uma ong com esse nome");
         }
 
         Ong ong = new Ong(data);
+        respository.save(ong);
 
         return ResponseEntity.ok("Ong cadastrada com sucesso");
     }

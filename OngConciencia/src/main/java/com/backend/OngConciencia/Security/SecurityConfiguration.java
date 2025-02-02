@@ -40,11 +40,12 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         // Configurações para o RestController /ong
-                        .requestMatchers(HttpMethod.POST, "/ong").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/ong").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/ong").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/ong").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/ong/{id}").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/ong").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/ong/{id}").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/ong/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/ong").hasRole("ADMIN")
 
                         // Configurações para o RestController /usuario
                         .requestMatchers(HttpMethod.GET, "/user/**").permitAll()
