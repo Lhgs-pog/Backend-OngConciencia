@@ -23,12 +23,17 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfiguration {
 
+    //Dependenciaas
     @Autowired
     SecurityFilter securityFilter;
 
+    /*
+    * Configuração das origens, requisições http e endpoints
+    * */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return  httpSecurity
+                //Configura as origens das requisições permitidas e os métodos http
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
@@ -37,6 +42,7 @@ public class SecurityConfiguration {
                     config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE")); // Métodos permitidos
                     return config;
                 }))
+                //Configura os endpoints
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         // Configurações para o RestController /ong
@@ -66,12 +72,18 @@ public class SecurityConfiguration {
     }
 
 
+    /*
+    * Regenciador de autenticações
+    * */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
 
+    /*
+    * Função para retorna um objeto para encryptografar senhas
+    */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

@@ -12,17 +12,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmailServices {
 
+    //Denpendencias
     @Autowired
     JavaMailSender javaMailSender;
 
+    //Recupera o email no applications properties
     @Value("${spring.mail.username}")
     private String remetente;
 
-    private String conteudo;
-
-    //Enviar emails somente de texto
+    /*
+    * Envia emails em formato de texto
+    * */
     public String enviarEmailTexto(String destinatario, String assunto, String mensagem){
         try{
+            //Configuração
             SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
             simpleMailMessage.setFrom(remetente);
             simpleMailMessage.setTo(destinatario);
@@ -35,17 +38,22 @@ public class EmailServices {
         }
     }
 
-    //Enviar emails com estrutura html e estilização do css
+    /*
+    * Envia emails em formato html
+    * */
     public String envirEmailCodigo(String destinatario, String assunto, String conteudo){
         try {
+            //Criação do objeto
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
+            //Configuração
             helper.setFrom(remetente);
             helper.setTo(destinatario);
             helper.setSubject(assunto);
-            helper.setText(conteudo, true);
+            helper.setText(conteudo, true);//Indica que ele é html
 
+            //Envia
             javaMailSender.send(mimeMessage);
             return "Email enviado";
         } catch (Exception e) {

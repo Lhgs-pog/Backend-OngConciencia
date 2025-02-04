@@ -62,6 +62,7 @@ public class Usuario implements UserDetails {
         this.senha= user.senha();
     }
 
+    //Funções do espring security
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if(this.role == UsuarioRole.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));

@@ -13,12 +13,16 @@ import java.util.Random;
 @Service
 public class CodigoServices {
 
+    //Dependencias
     @Autowired
     CodigoRepository repository;
 
     @Autowired
     EmailServices emailServices;
 
+    /*
+    * Gera um código numerico de 6 digitos
+    * */
     public int gerarCodigo(){
         Random gerador = new Random();
         //Gera um numero aleatorio de 000000 a 999999
@@ -26,12 +30,18 @@ public class CodigoServices {
     }
 
     //Chamar isso quando a o codigo for gerado
+    /*
+    * Função respoosnssável por gerar o código de verificação, ssalvando o no banco de dados para verificação futura
+    * e envio do código por um email html para o usuário
+    * */
     public void salvarCodigo(String email) {
+        //Informações para salvamento do código
         int codigo = gerarCodigo();
         LocalDateTime now = LocalDateTime.now();
         Codigo cod = new Codigo(email, codigo, now);
         repository.save(cod);
 
+        //Envio do email em formato html
         emailServices.envirEmailCodigo(
                 email,
                 "Verificação de email",
@@ -97,22 +107,34 @@ public class CodigoServices {
                                 </p>
                             </div>
                         </body>
-                        </html>""", email, codigo)
+                        </html>""", email, codigo)//Atributos inseridos na string de multiplas linhas
 
         );
     }
 
+    /*
+    * Verifica se o código salvo no banco de dados e o informado pelo o usuário são os mesmos
+    * */
     public boolean verificarCodigo(String email, int tentativa){
+        //Busca o código salvo no banco de dados
         Codigo codigo = repository.findByEmail("\""+email+"\"");
+
+        //Compara a diferença de tempo de quando o códico foi criado e agora
         Duration duration = Duration.between(codigo.getDia(), LocalDateTime.now());
 
+        //Apaga o código do banco estando certo ou não
         deleteCodigo(codigo);
+
+        //Valida se a tentativa e o código são os mesmos e se ele foi criado a mais de 24h
         if (codigo.getCodigo() == tentativa && duration.toHours() <= 24) {
             return true;
         }
         return false;
     }
 
+    /*
+    * Função responsável por deletar o código no banco de dados
+    * */
     public void deleteCodigo(Codigo codigo){
         repository.deleteById(codigo.getId());
     }

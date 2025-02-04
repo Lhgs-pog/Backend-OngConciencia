@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("auth")
 public class AuthenticationController {
 
+    //Dependencias
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -31,15 +32,21 @@ public class AuthenticationController {
     @Autowired
     private TokenService tokenService;
 
+    /*
+    * Função para fazer o login do usuário
+    * */
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDto data) {
-        var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
-        var auth = this.authenticationManager.authenticate(usernamePassword);
+        var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.senha());//Verifica os dados do usuário
+        var auth = this.authenticationManager.authenticate(usernamePassword);//Verifica a authenticação
 
-        var token = tokenService.generateToken((Usuario) auth.getPrincipal());
-        return ResponseEntity.ok(new LoginResponseDto(token));
+        var token = tokenService.generateToken((Usuario) auth.getPrincipal());//Gerá um token com os dados do usuário
+        return ResponseEntity.ok(new LoginResponseDto(token));//Status da resposta
     }
 
+    /*
+    * Não usaremos essa função
+    * */
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody @Valid RegisterDto data) {
         if (this.repository.findByEmail(data.email()) != null) {
