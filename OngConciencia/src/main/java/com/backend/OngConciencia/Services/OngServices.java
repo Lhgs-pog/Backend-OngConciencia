@@ -16,6 +16,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class OngServices {
@@ -56,14 +57,14 @@ public class OngServices {
     /*
     * Retorna uma ong com id epecífico
     * */
-    public Optional<Ong> getOngBYId(String id){
+    public Optional<Ong> getOngBYId(UUID id){
         return respository.findById(id);
     }
 
     /*
     * Serviço para barra de pesquisa
     * */
-    public List<Ong> pesquisarOngs(String keyword){return respository.findByName(keyword);}
+    public List<Ong> pesquisarOngs(String nome){return respository.findByNomeSimilar(nome);}
 
     /*
     * Salva uma nova ong
@@ -72,7 +73,7 @@ public class OngServices {
     public ResponseEntity saveOng(OngRequestDto data){
 
         //Verifica se o nome já existe
-        if(respository.findOptionalByNome(data.nome()).isPresent()){
+        if(respository.findByNome(data.nome()).isPresent()){
             throw new DataIntegrityViolationException("Já existe uma ong com esse nome");
         }
 
@@ -91,7 +92,7 @@ public class OngServices {
     public ResponseEntity updateOng(OngRequestDto data){
 
         //Verifica se ela existe
-        Ong ongexistente = respository.findOptionalByNome(data.nome())
+        Ong ongexistente = respository.findByNome(data.nome())
                 .orElseThrow(() -> new ResourceNotFoundException("Nenhuma ong encontrada com esse nome"));
 
 
@@ -113,7 +114,7 @@ public class OngServices {
     * Deleta um ong pelo id passado
     * */
     @Transactional
-    public ResponseEntity deleteOngById(String id){
+    public ResponseEntity deleteOngById(UUID id){
         respository.deleteById(id);
 
         //Status da resposta

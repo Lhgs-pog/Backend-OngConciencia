@@ -9,17 +9,20 @@ import org.springframework.stereotype.Repository;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface OngRespository extends JpaRepository<Ong, String> {
-    Optional<Ong> findOptionalByNome(String nome);
+public interface OngRespository extends JpaRepository<Ong, UUID> {
+    Optional<Ong> findByNome(String nome);
 
     /*
     * Query para barra de pesquisa onde eu posso achar ongs pelo nome mesmo que eu não tenha colocado o nome completo, por exemplo:
     * pesquisa "médico", o resultado médicos sem fronteiras ainda apareceria
     * */
-    @Query("SELECT o FROM ONG o WHERE SIMILARITY(LOWER(o.nome), LOWER(:keyword)) > 0.3 ORDER BY SIMILARITY(LOWER(o.nome), LOWER(:keyword)) DESC")
-    List<Ong> findByName(@Param("keyword") String keyword);
+    @Query("SELECT o FROM Ong o " +
+            "WHERE function('similarity', LOWER(o.nome), LOWER(:nome)) > 0.3 " +
+            "ORDER BY function('similarity', LOWER(o.nome), LOWER(:nome)) DESC")
+    List<Ong> findByNomeSimilar(@Param("nome") String nome);
 }
 /*Query de pesquisa
 

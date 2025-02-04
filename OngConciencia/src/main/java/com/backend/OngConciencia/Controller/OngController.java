@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/ong")
@@ -30,7 +31,7 @@ OngController {
 
     //endpooint para pegar uma ong com um id passado na url
     @GetMapping("/{id}")
-    public Optional<Ong> getOngById(@PathVariable("id")String id){
+    public Optional<Ong> getOngById(@PathVariable("id") UUID id){
         return services.getOngBYId(id);
     }
 
@@ -61,7 +62,7 @@ OngController {
 
     //endpoint para deletar uma ong por um id
     @DeleteMapping("/{id}")
-    public ResponseEntity DeleteOngById(@PathVariable("id") String id){
+    public ResponseEntity DeleteOngById(@PathVariable("id") UUID id){
         return services.deleteOngById(id);
     }
 }

@@ -50,6 +50,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.PUT, "/ong").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/ong").permitAll()
                         .requestMatchers(HttpMethod.GET, "/ong/{id}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/ong/search").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/ong/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/ong").hasRole("ADMIN")
 

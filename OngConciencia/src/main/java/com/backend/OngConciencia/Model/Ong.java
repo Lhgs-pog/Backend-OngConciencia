@@ -7,25 +7,24 @@ import lombok.*;
 import org.springframework.stereotype.Component;
 
 import java.math.BigInteger;
+import java.util.UUID;
 
+@Entity
 @Table(name = "ong")
-
-@Entity(name = "ong")
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 
 @EqualsAndHashCode(of = "id")
-
-@Component
 public class Ong {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", nullable = false)
-    private String id;
+    private UUID id;
     @Column(name = "nome", nullable = false)
     private String nome;
     @Column(name = "descricao", nullable = false)
