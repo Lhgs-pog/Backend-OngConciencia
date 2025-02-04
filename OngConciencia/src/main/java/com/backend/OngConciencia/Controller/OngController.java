@@ -36,7 +36,10 @@ OngController {
 
     //endpoint para pegar somente 30 ongs. Fututaamente será as de melhor avaliação
     @GetMapping("/exibicao")
-    private List<OngResponseDto> getOngsExibicao(){return services.get30Ongs();}
+    public List<OngResponseDto> getOngsExibicao(){return services.get30Ongs();}
+
+    @GetMapping("/search")
+    public List<Ong> pesquisarOngs(@RequestParam String keyword){return services.pesquisarOngs(keyword);}
 
     //endpoint para cadastrar uma ong
     @PostMapping

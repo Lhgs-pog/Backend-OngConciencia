@@ -61,6 +61,11 @@ public class OngServices {
     }
 
     /*
+    * Serviço para barra de pesquisa
+    * */
+    public List<Ong> pesquisarOngs(String keyword){return respository.findByName(keyword);}
+
+    /*
     * Salva uma nova ong
     * */
     @Transactional
