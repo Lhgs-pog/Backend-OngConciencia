@@ -57,6 +57,7 @@ public class SecurityConfiguration {
                         // Configurações para o RestController /usuario
                         .requestMatchers(HttpMethod.GET, "/user/**").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/user/{id}").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/user/foto").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/user/{id}").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/user").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/user/**").permitAll()
