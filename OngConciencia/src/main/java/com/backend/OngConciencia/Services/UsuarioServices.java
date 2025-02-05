@@ -54,6 +54,13 @@ public class UsuarioServices {
     }
 
     /*
+    Retorna um usuário especicífico pelo Email dele
+    * */
+    public Optional<Usuario> findUsuarioByEmail(String email){
+        return repository.findOptionalByEmail(email);
+    }
+
+    /*
     * Salva um novo usuário no banco de dados
     * */
     @Transactional

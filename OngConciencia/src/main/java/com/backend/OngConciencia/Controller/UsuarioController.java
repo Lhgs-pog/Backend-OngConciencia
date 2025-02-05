@@ -36,6 +36,13 @@ public class UsuarioController {
     }
 
     /*
+     * Retorna um usuário específico pelo EMAIL
+     * */
+    @GetMapping("/email/{email}")
+    public Optional<Usuario> getUsuarioByEmail(@PathVariable("email")String email){
+        return services.findUsuarioByEmail(email);
+    }
+    /*
     * Cadastrar novo usuário
     * */
     @PostMapping("/{tentativa}")
