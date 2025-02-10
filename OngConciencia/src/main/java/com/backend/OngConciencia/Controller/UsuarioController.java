@@ -5,6 +5,7 @@ import com.backend.OngConciencia.Dto.UsuarioResponseDto;
 import com.backend.OngConciencia.Model.Usuario;
 import com.backend.OngConciencia.Services.UsuarioServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -69,8 +70,11 @@ public class UsuarioController {
     /*
     * Atualizar dados do usuário
     * */
-    @PutMapping("/{id}")
-    public ResponseEntity uptUsuario(@PathVariable("id") String id,@RequestBody UsuarioRequestDto data, @RequestParam("foto")MultipartFile foto ){
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> uptUsuario(
+            @PathVariable("id") String id,
+            @RequestPart("data") UsuarioRequestDto data,
+            @RequestPart(value = "foto", required = false) MultipartFile foto) {
         return services.updateUsuario(id, data, foto);
     }
 
