@@ -98,7 +98,7 @@ public class UsuarioServices {
 
         //Verifica se o email novo já existe
         Optional<Usuario> usuarioComMesmoEmail = repository.findOptionalByEmail(usuarioNovo.email());
-        if (usuarioComMesmoEmail.isPresent() && usuarioComMesmoEmail.get().getEmail().equals(usuarioNovo.email())){
+        if (usuarioComMesmoEmail.isPresent() && !usuarioComMesmoEmail.get().getId().equals(usuarioExistente.getId())){
             throw new DataIntegrityViolationException("Já existe um usuário com este email");
         }
 
