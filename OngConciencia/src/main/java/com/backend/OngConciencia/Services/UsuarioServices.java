@@ -103,7 +103,7 @@ public class UsuarioServices {
         }
 
         //Atualiza os atributos
-        usuarioExistente.setEmail(usuarioNovo.nome());
+        usuarioExistente.setNome(usuarioNovo.nome());
         usuarioExistente.setEmail(usuarioNovo.email());
         usuarioExistente.setSenha(usuarioNovo.senha());
 
