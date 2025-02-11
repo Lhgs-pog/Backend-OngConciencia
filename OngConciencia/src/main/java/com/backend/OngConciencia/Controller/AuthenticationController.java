@@ -46,7 +46,7 @@ public class AuthenticationController {
 
     /*
     * Não usaremos essa função
-    * */
+    *
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody @Valid RegisterDto data) {
         if (this.repository.findByEmail(data.email()) != null) {
@@ -62,4 +62,5 @@ public class AuthenticationController {
 
         return ResponseEntity.ok().build();
     }
+     */
 }
