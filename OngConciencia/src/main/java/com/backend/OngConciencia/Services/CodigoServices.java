@@ -35,6 +35,10 @@ public class CodigoServices {
     * e envio do código por um email html para o usuário
     * */
     public void salvarCodigo(String email) {
+        //Deleta um código anterior
+        Codigo codigoa = repository.findByEmail(email);
+        repository.deleteById(codigoa.getId());
+
         //Informações para salvamento do código
         int codigo = gerarCodigo();
         LocalDateTime now = LocalDateTime.now();
