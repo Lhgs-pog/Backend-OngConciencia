@@ -105,7 +105,10 @@ public class UsuarioServices {
         //Atualiza os atributos
         usuarioExistente.setNome(usuarioNovo.nome());
         usuarioExistente.setEmail(usuarioNovo.email());
-        usuarioExistente.setSenha(usuarioNovo.senha());
+
+        //Encryotografada
+        String senhaCriptografda = new BCryptPasswordEncoder().encode(usuarioNovo.senha());
+        usuarioExistente.setSenha(senhaCriptografda);
 
         //Caso não tenha foto nova ele não muda
         if (!(foto.equals(null) || foto == null))

@@ -35,6 +35,10 @@ public class CodigoServices {
     * e envio do código por um email html para o usuário
     * */
     public void salvarCodigo(String email) {
+        //Deleta um código anterior
+        Codigo codigoa = repository.findByEmail(email);
+        repository.deleteById(codigoa.getId());
+
         //Informações para salvamento do código
         int codigo = gerarCodigo();
         LocalDateTime now = LocalDateTime.now();
@@ -117,7 +121,7 @@ public class CodigoServices {
     * */
     public boolean verificarCodigo(String email, int tentativa){
         //Busca o código salvo no banco de dados
-        Codigo codigo = repository.findByEmail("\""+email+"\"");
+        Codigo codigo = repository.findByEmail(email);
 
         //Compara a diferença de tempo de quando o códico foi criado e agora
         Duration duration = Duration.between(codigo.getDia(), LocalDateTime.now());
