@@ -1,5 +1,6 @@
 package com.backend.OngConciencia.Controller;
 
+import com.backend.OngConciencia.Dto.PasswordResponseDto;
 import com.backend.OngConciencia.Dto.UsuarioRequestDto;
 import com.backend.OngConciencia.Dto.UsuarioResponseDto;
 import com.backend.OngConciencia.Model.Usuario;
@@ -65,6 +66,14 @@ public class UsuarioController {
     @PutMapping("/foto")
     public ResponseEntity<String> postFoto(@RequestParam("email") String email,@RequestParam("foto")MultipartFile foto){
         return services.updateFoto(email,foto);
+    }
+
+    /*
+     * Atualizar senha do usuário
+     * */
+    @PutMapping("/senha")
+    public ResponseEntity uptSenha(@RequestBody PasswordResponseDto passwordResponseDto){
+        return services.updateSenha(passwordResponseDto.email(), passwordResponseDto.cod(), passwordResponseDto.senha());
     }
 
     /*

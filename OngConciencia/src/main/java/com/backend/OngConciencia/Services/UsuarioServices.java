@@ -120,6 +120,32 @@ public class UsuarioServices {
     }
 
     /*
+     * Atualizar somente a senha
+     * */
+    public ResponseEntity<String> updateSenha(String email, int cod, String senha){
+        //Verifica se o usuário existe
+        Usuario usuario = repository.findOptionalByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Não existe um usuário com este email"));
+
+        try{
+            //Criptografar senha
+            String senhaCriptografada = new BCryptPasswordEncoder().encode(senha);
+            usuario.setSenha(senhaCriptografada);
+
+            //Verifica o código
+            if (codigoServices.verificarCodigo(email, cod)) {
+                repository.save(usuario);
+                return ResponseEntity.ok("Senha atualizada com sucesso!");
+            }
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Código de verificação inválido ou expirado.");
+        }catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao alterar a senha");
+        }
+    }
+
+    /*
     * Atualizar somente a foto
     * */
     @Transactional
