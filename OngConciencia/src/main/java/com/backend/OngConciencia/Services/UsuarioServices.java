@@ -201,4 +201,11 @@ public class UsuarioServices {
     public void enviarEmailVerificacao(String email){
         codigoServices.salvarCodigo(email);
     }
+
+    /*
+     * Envia o código de verificação para alterar a senha
+     * */
+    public void enviarCodSenha(String email){
+        codigoServices.enviarCodAlterarSenha(email);
+    }
 }

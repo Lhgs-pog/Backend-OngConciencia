@@ -69,6 +69,14 @@ public class UsuarioController {
     }
 
     /*
+     * Gerar um código de verificação e envia-lo pelo email
+     * */
+    @PostMapping("/codigo-senha")
+    public void gerarCodigoSenha(@RequestBody String email){
+        services.enviarCodSenha(email);
+    }
+
+    /*
      * Atualizar senha do usuário
      * */
     @PutMapping("/senha")
