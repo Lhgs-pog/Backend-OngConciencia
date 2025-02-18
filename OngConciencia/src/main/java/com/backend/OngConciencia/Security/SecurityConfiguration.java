@@ -58,6 +58,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.GET, "/user/**").authenticated()
                         .requestMatchers(HttpMethod.PUT, "/user/{id}").authenticated()
                         .requestMatchers(HttpMethod.PUT, "/user/foto").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/user/senha").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/user/{id}").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/user").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/user/**").permitAll()
