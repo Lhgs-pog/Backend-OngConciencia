@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigInteger;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -35,9 +36,10 @@ public class CodigoServices {
     * e envio do código por um email html para o usuário
     * */
     public void salvarCodigo(String email) {
-        //Deleta um código anterior
-        Codigo codigoa = repository.findByEmail(email);
-        repository.deleteById(codigoa.getId());
+        // Busca um código existente pelo email
+        Optional<Codigo> codigoOptional = Optional.ofNullable(repository.findByEmail(email));
+        // Se existir, deleta o código anterior
+        codigoOptional.ifPresent(codigo -> repository.deleteById(codigo.getId()));
 
         //Informações para salvamento do código
         int codigo = gerarCodigo();
