@@ -70,7 +70,14 @@ public class UsuarioServices {
             return ResponseEntity.badRequest().body("Este email de usuário já existe");
 
         //converte o objeto UsuarioRequestDto para um objeto usuário
-        Usuario usuario = new Usuario(data);
+
+        Usuario usuario = new Usuario();
+        usuario.setNome(data.nome());
+        usuario.setEmail(data.email());
+
+        if (!(data.foto().equals(null) || data.foto() == null)){
+            usuario.setFoto(data.foto());
+        }
 
         //Defini o cargo como usuário
         usuario.setRole(UsuarioRole.USER);

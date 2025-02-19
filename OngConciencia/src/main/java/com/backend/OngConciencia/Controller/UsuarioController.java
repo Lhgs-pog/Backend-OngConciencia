@@ -47,8 +47,8 @@ public class UsuarioController {
     /*
     * Cadastrar novo usuário
     * */
-    @PostMapping("/{tentativa}")
-    public ResponseEntity postUsuario(@PathVariable("tentativa") int tentativa ,@RequestBody UsuarioRequestDto data){
+    @PostMapping
+    public ResponseEntity postUsuario(@RequestParam("tentativa") int tentativa ,@RequestBody UsuarioRequestDto data){
         return services.saveUsuario(data, tentativa);
     }
 
