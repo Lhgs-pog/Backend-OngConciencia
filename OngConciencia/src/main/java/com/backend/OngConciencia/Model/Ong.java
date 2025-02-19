@@ -33,9 +33,9 @@ public class Ong {
     private String email;
     @Column(name = "telefone", nullable = false, unique = true)
     private String telefone;
-    @Column(name = "link_img", nullable = true)
+    @Column(name = "link_img")
     private String link_img;
-    @Column(name = "link_site", nullable = false)
+    @Column(name = "link_site")
     private String link_site;
 
     public Ong(OngRequestDto dto){
