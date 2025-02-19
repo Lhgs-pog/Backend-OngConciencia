@@ -64,7 +64,7 @@ public class UsuarioServices {
     * Salva um novo usuário no banco de dados
     * */
     @Transactional
-    public ResponseEntity saveUsuario(UsuarioRequestDto data, int tentativa){
+    public ResponseEntity saveUsuario(UsuarioRequestDto data, int tentativa, MultipartFile foto){
         //Verifica se o email já existe
         if (repository.findByEmail(data.email()) != null)
             return ResponseEntity.badRequest().body("Este email de usuário já existe");
@@ -75,8 +75,8 @@ public class UsuarioServices {
         usuario.setNome(data.nome());
         usuario.setEmail(data.email());
 
-        if (!(data.foto().equals(null) || data.foto() == null)){
-            usuario.setFoto(data.foto());
+        if (!(foto.equals(null) || foto == null)){
+            usuario.setFoto(imagemService.tratarImagem(foto));
         }
 
         //Defini o cargo como usuário

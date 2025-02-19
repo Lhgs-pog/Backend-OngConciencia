@@ -48,8 +48,8 @@ public class UsuarioController {
     * Cadastrar novo usuário
     * */
     @PostMapping
-    public ResponseEntity postUsuario(@RequestParam("tentativa") int tentativa ,@RequestBody UsuarioRequestDto data){
-        return services.saveUsuario(data, tentativa);
+    public ResponseEntity postUsuario(@RequestParam("tentativa") int tentativa ,@RequestBody UsuarioRequestDto data, @RequestParam("foto") MultipartFile foto){
+        return services.saveUsuario(data, tentativa, foto);
     }
 
     /*
