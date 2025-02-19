@@ -98,12 +98,12 @@ public class UsuarioServices {
 
         //Verifica se o email novo já existe
         Optional<Usuario> usuarioComMesmoEmail = repository.findOptionalByEmail(usuarioNovo.email());
-        if (usuarioComMesmoEmail.isPresent() && usuarioComMesmoEmail.get().getEmail().equals(usuarioNovo.email())){
+        if (usuarioComMesmoEmail.isPresent() && !usuarioComMesmoEmail.get().getId().equals(usuarioExistente.getId())){
             throw new DataIntegrityViolationException("Já existe um usuário com este email");
         }
 
         //Atualiza os atributos
-        usuarioExistente.setEmail(usuarioNovo.nome());
+        usuarioExistente.setNome(usuarioNovo.nome());
         usuarioExistente.setEmail(usuarioNovo.email());
 
         //Encryotografada
@@ -117,6 +117,32 @@ public class UsuarioServices {
         repository.save(usuarioExistente);
 
         return ResponseEntity.ok(usuarioExistente);
+    }
+
+    /*
+     * Atualizar somente a senha
+     * */
+    public ResponseEntity<String> updateSenha(String email, int cod, String senha){
+        //Verifica se o usuário existe
+        Usuario usuario = repository.findOptionalByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Não existe um usuário com este email"));
+
+        try{
+            //Criptografar senha
+            String senhaCriptografada = new BCryptPasswordEncoder().encode(senha);
+            usuario.setSenha(senhaCriptografada);
+
+            //Verifica o código
+            if (codigoServices.verificarCodigo(email, cod)) {
+                repository.save(usuario);
+                return ResponseEntity.ok("Senha atualizada com sucesso!");
+            }
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Código de verificação inválido ou expirado.");
+        }catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao alterar a senha");
+        }
     }
 
     /*
@@ -174,5 +200,12 @@ public class UsuarioServices {
     * */
     public void enviarEmailVerificacao(String email){
         codigoServices.salvarCodigo(email);
+    }
+
+    /*
+     * Envia o código de verificação para alterar a senha
+     * */
+    public void enviarCodSenha(String email){
+        codigoServices.enviarCodAlterarSenha(email);
     }
 }

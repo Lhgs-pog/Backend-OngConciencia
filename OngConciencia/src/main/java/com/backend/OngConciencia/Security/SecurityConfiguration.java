@@ -55,16 +55,16 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.DELETE, "/ong").hasRole("ADMIN")
 
                         // Configurações para o RestController /usuario
-                        .requestMatchers(HttpMethod.GET, "/user/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/user/**").authenticated()
                         .requestMatchers(HttpMethod.PUT, "/user/{id}").authenticated()
                         .requestMatchers(HttpMethod.PUT, "/user/foto").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/user/senha").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/user/{id}").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/user").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/user/**").permitAll()
 
                         // Requisições de Entrar e Cadastrar
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
                         .anyRequest().authenticated()
                 )
                 // .oauth2Login(Customizer.withDefaults())
