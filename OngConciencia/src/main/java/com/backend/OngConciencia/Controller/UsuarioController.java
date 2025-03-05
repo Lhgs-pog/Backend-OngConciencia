@@ -47,9 +47,12 @@ public class UsuarioController {
     /*
     * Cadastrar novo usuário
     * */
-    @PostMapping
-    public ResponseEntity postUsuario(@RequestParam("tentativa") int tentativa ,@RequestBody UsuarioRequestDto data, @RequestParam("foto") MultipartFile foto){
-        return services.saveUsuario(data, tentativa, foto);
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity postUsuario(
+            @RequestParam("tentativa") int tentativa,
+            @RequestPart("data") UsuarioRequestDto data
+            /*@RequestPart("foto") MultipartFile foto*/) {
+        return services.saveUsuario(data, tentativa);
     }
 
     /*

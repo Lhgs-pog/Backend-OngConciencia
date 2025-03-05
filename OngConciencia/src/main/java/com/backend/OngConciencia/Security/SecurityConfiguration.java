@@ -37,7 +37,7 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
-                    config.setAllowedOrigins(List.of("*")); // Permite requisições de qualquer origem(Obs: Posso mudar para um endereço específico)
+                    config.setAllowedOriginPatterns(List.of("*"));// Permite requisições de qualquer origem, incluindo null(Obs: Posso mudar para um endereço específico)
                     config.setAllowedHeaders(List.of("*")); // Permitir todos os cabeçalhos
                     config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE")); // Métodos permitidos
                     return config;
@@ -62,6 +62,8 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.DELETE, "/user/{id}").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/user").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/user/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/user").permitAll()
+
 
                         // Requisições de Entrar e Cadastrar
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()

@@ -207,7 +207,7 @@ public class CodigoServices {
     * */
     public boolean verificarCodigo(String email, int tentativa){
         //Busca o código salvo no banco de dados
-        Codigo codigo = repository.findByEmail(email);
+        Codigo codigo = repository.findByEmail("\"" + email + "\"");
 
         //Compara a diferença de tempo de quando o códico foi criado e agora
         Duration duration = Duration.between(codigo.getDia(), LocalDateTime.now());
